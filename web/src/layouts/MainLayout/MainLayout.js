@@ -1,4 +1,8 @@
+import { useAuth } from '@redwoodjs/auth'
+
 const MainLayout = ({ children }) => {
+  const { logIn, logOut, isAuthenticated, userMetadata } = useAuth()
+
   return (
     <>
       <div className="dark:bg-gray-800 font-mono bg-white relative overflow-hidden h-screen">
@@ -11,7 +15,19 @@ const MainLayout = ({ children }) => {
             </div>
             <div className="flex items-center">
               <nav className="font-sen text-gray-800 dark:text-white uppercase text-lg lg:flex items-center hidden">
-                <div className="flex right space-x-2">Login</div>
+                <div className="flex right space-x-2">
+                  <div className="flex right space-x-2">
+                    {isAuthenticated && (
+                      <span className="span">{userMetadata.email}</span>
+                    )}
+                    <button
+                      className="link-button"
+                      onClick={isAuthenticated ? logOut : logIn}
+                    >
+                      {isAuthenticated ? 'Log Out' : 'Log In'}
+                    </button>
+                  </div>
+                </div>
               </nav>
             </div>
           </div>
